@@ -9,7 +9,7 @@ from analytics.resampling import get_ohlcv
 def align_price_series(
     symbol_x: str,
     symbol_y: str,
-    timeframe: str = "1T",
+    timeframe: str = "1min",
     price_col: str = "close",
 ):
     """
@@ -42,8 +42,7 @@ def compute_spread(df: pd.DataFrame, alpha: float, beta: float):
     """
     Spread = y - (alpha + beta * x)
     """
-    spread = df["y"] - (alpha + beta * df["x"])
-    return spread
+    return df["y"] - (alpha + beta * df["x"])
 
 
 def compute_zscore(spread: pd.Series, window: int = 30):
@@ -52,8 +51,7 @@ def compute_zscore(spread: pd.Series, window: int = 30):
     """
     mean = spread.rolling(window).mean()
     std = spread.rolling(window).std()
-    zscore = (spread - mean) / std
-    return zscore
+    return (spread - mean) / std
 
 
 def compute_rolling_correlation(df: pd.DataFrame, window: int = 30):
@@ -80,7 +78,7 @@ def adf_test(spread: pd.Series):
 def run_pair_analytics(
     symbol_x: str,
     symbol_y: str,
-    timeframe: str = "1T",
+    timeframe: str = "1min",
     z_window: int = 30,
 ):
     """
@@ -104,13 +102,12 @@ def run_pair_analytics(
 
 
 if __name__ == "__main__":
-    # Quick sanity test
-    result = run_pair_analytics("BTCUSDT", "ETHUSDT", "1T")
+    result = run_pair_analytics("BTCUSDT", "ETHUSDT", "1min", 20)
 
     print("Hedge ratio (beta):", result["beta"])
-    z = result["zscore"].dropna()
-if not z.empty:
-    print("Latest z-score:", z.iloc[-1])
-else:
-    print("Latest z-score: Not enough data yet")
 
+    z = result["zscore"].dropna()
+    if not z.empty:
+        print("Latest z-score:", z.iloc[-1])
+    else:
+        print("Latest z-score: Not enough data yet")
