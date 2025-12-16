@@ -25,33 +25,33 @@ of mean-reversion signals such as Z-score.
 
 ## 🧠 Architecture Overview
 
-Binance API
+[Binance API]
 ↓
-Ingestion Layer (WebSocket / REST)
+[Ingestion Layer (WebSocket / REST)]
 ↓
-SQLite Storage (ticks.db)
+[SQLite Storage (ticks.db)]
 ↓
-Analytics Layer (Resampling + Statistics)
+[Analytics Layer (Resampling + Statistics)]
 ↓
-Streamlit Dashboard (Visualization & Controls)
+[[Streamlit Dashboard (Visualization & Controls)]
 
 ---
 
 ## 📂 Project Structure
 
-real-time-quant-analytics/
+[real-time-quant-analytics/]
 │
-├── ingestion/
+├── [ingestion/]
 │ └── binance_ws.py # Tick ingestion
 │
-├── storage/
+├── [storage/]
 │ └── db.py # SQLite persistence
 │
-├── analytics/
+├── [analytics/]
 │ ├── resampling.py # Tick → OHLCV
 │ └── pairs.py # Pair analytics (β, spread, z-score)
 │
-├── data/
+├── [data/]
 │ └── ticks.db # Local tick database
 │
 ├── app.py # Streamlit dashboard
