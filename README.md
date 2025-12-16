@@ -1,26 +1,103 @@
-# Real-Time Quant Pair Analytics Dashboard
+# 📈 Real-Time Quant Pair Analytics Dashboard
 
-A production-style real-time quantitative analytics system for crypto pairs using live market data.
+A real-time quantitative analytics system for crypto trading pairs that performs
+tick ingestion, resampling, statistical analysis, and interactive visualization
+of mean-reversion signals such as Z-score.
 
-## Features
-- Live tick ingestion from Binance
-- Persistent SQLite storage
-- Tick-to-OHLCV resampling
-- Pair trading analytics:
-  - Hedge ratio (OLS regression)
-  - Spread calculation
-  - Rolling Z-score
+---
+
+## 🚀 Features
+
+- Real-time tick ingestion from Binance
+- Persistent storage using SQLite
+- Tick → OHLCV resampling
+- Pair analytics:
+  - Hedge ratio (β)
+  - Spread computation
+  - Z-score (mean reversion signal)
   - Rolling correlation
-  - ADF stationarity test
 - Interactive Streamlit dashboard
-- Auto-refresh & CSV export
+- KPI cards and alerts
+- CSV export
+- Auto-refreshing live view
 
-## Tech Stack
-- Python 3.10
-- Pandas, NumPy
-- Statsmodels
-- SQLite
-- Plotly
-- Streamlit
+---
 
-## Project Structure
+## 🧠 Architecture Overview
+
+Binance API
+↓
+Ingestion Layer (WebSocket / REST)
+↓
+SQLite Storage (ticks.db)
+↓
+Analytics Layer (Resampling + Statistics)
+↓
+Streamlit Dashboard (Visualization & Controls)
+
+---
+
+## 📂 Project Structure
+
+real-time-quant-analytics/
+│
+├── ingestion/
+│ └── binance_ws.py # Tick ingestion
+│
+├── storage/
+│ └── db.py # SQLite persistence
+│
+├── analytics/
+│ ├── resampling.py # Tick → OHLCV
+│ └── pairs.py # Pair analytics (β, spread, z-score)
+│
+├── data/
+│ └── ticks.db # Local tick database
+│
+├── app.py # Streamlit dashboard
+├── requirements.txt
+└── README.md
+
+---
+
+## 📊 Analytics Explained
+
+### Hedge Ratio (β)
+Computed using OLS regression:
+y = α + βx
+
+### Spread
+spread = y - (α + βx)
+
+### Z-Score (Mean Reversion)
+z = (spread - mean) / std
+
+### Why Z-Score?
+- |z| > 2 → potential trading opportunity
+- Used in statistical arbitrage strategies
+
+---
+
+## 🖥 Dashboard Features
+
+- Symbol selection
+- Timeframe selection
+- Rolling window control
+- KPI cards:
+  - Z-score
+  - Hedge ratio
+  - Spread
+  - Correlation
+  - Data points
+- Visual alerts
+- CSV export
+
+---
+
+## ▶️ How to Run
+
+```bash
+pip install -r requirements.txt
+python ingestion/binance_ws.py
+streamlit run app.py
+
